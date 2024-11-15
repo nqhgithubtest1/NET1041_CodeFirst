@@ -10,7 +10,8 @@ namespace Bai4_1.Models
         public string XaPhuong { get; set; }
         public string SoNha { get; set; }
 
-        
+        // 1-1
+        // Lay PK cua SinhVien lam FK cua DiaChi
         public int SinhVienID { get; set; }
         public SinhVien SinhVien { get; set; }
     }

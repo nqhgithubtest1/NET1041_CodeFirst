@@ -15,12 +15,17 @@ namespace Bai4_1.Models
 
 
         // 1-1
+        // Dat 1 thuoc tinh DiaChi vao class SinhVien
         [ForeignKey("SinhVienID")]
         public DiaChi DiaChi { get; set; }
 
         // n-1
+        // Vi 1 SinhVien co nhieu Laptop 
+        // nen trong SInhVien dat 1 danh sach cac Laptop
         public List<Laptop> Laptops { get; set; }
 
+        // n-n
+        // trong SInhVien dat 1 danh sach cac LopHoc
         public List<LopHoc> LopHocs { get; set; }
     }
 }

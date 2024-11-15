@@ -4,6 +4,7 @@ using Bai4_1.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bai4_1.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241115011249_FluentAPI1n")]
+    partial class FluentAPI1n
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +105,7 @@ namespace Bai4_1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int?>("ChuongID")
+                    b.Property<int>("ChuongID")
                         .HasColumnType("int");
 
                     b.Property<string>("Ten")
@@ -183,38 +186,6 @@ namespace Bai4_1.Migrations
                     b.ToTable("SinhViens");
                 });
 
-            modelBuilder.Entity("Bai4_1.Models.ThucAn", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("TenThucAn")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ThucAn");
-                });
-
-            modelBuilder.Entity("DongVatThucAn", b =>
-                {
-                    b.Property<int>("DongVatsID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThucAnsID")
-                        .HasColumnType("int");
-
-                    b.HasKey("DongVatsID", "ThucAnsID");
-
-                    b.HasIndex("ThucAnsID");
-
-                    b.ToTable("DongVatThucAn");
-                });
-
             modelBuilder.Entity("LopHocSinhVien", b =>
                 {
                     b.Property<int>("LopHocsLopHocID")
@@ -246,7 +217,8 @@ namespace Bai4_1.Migrations
                     b.HasOne("Bai4_1.Models.Chuong", "Chuong")
                         .WithMany("DongVats")
                         .HasForeignKey("ChuongID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Chuong");
                 });
@@ -271,21 +243,6 @@ namespace Bai4_1.Migrations
                         .IsRequired();
 
                     b.Navigation("DiaChi");
-                });
-
-            modelBuilder.Entity("DongVatThucAn", b =>
-                {
-                    b.HasOne("Bai4_1.Models.DongVat", null)
-                        .WithMany()
-                        .HasForeignKey("DongVatsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bai4_1.Models.ThucAn", null)
-                        .WithMany()
-                        .HasForeignKey("ThucAnsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("LopHocSinhVien", b =>
